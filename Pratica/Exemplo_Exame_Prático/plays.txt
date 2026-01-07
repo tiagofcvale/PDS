@@ -1,0 +1,4 @@
+Defender defender1 has 2 moves and 1 kicks
+Attacker attacker1 has 0 moves and 1 kicks
+Goalie goalie1 has 1 moves and 1 kicks
+New Attacker oldRobot1 has 1 moves and 1 kicks

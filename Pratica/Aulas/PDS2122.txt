@@ -1,0 +1,51 @@
+/home/tiago/Documents/UA/2ano/1Sem/PDS/Praticas/Aulas
+2026/01/07 10:39:58
+
+Alínea a) ----------------------------------
+
+Ref: C02 - CargoShip [code=S101, name=Quebra Molas, cargo=155.5]
+Ref: C03 - CargoShip [code=S923, name=Madalena, cargo=18.8]
+Ref: C11 - CargoShip [code=S732, name=SoPingas, cargo=20.2]
+Ref: P06 - PassengerShip [code=S078, name=Costeiro, passengers=25]
+Ref: P35 - PassengerShip [code=S185, name=PDS All aboard, passengers=80]
+Ref: P54 - PassengerShip [code=S199, name=Bananeiros, passengers=120]
+Ref: X01 - CargoShip [code=S45, name=Beirão, cargo=81.0]
+
+Alínea b) ----------------------------------
+
+Ref: C02 - Container Ship with 3 ships. Total passagers capacity : 3
+	PassengerShip [code=B899, name=Bora, passengers=4]
+	PassengerShip [code=B878, name=Riacho, passengers=2]
+	PassengerShip [code=B785, name=Turista, passengers=8]
+Ref: C03 - CargoShip [code=S923, name=Madalena, cargo=18.8]
+Ref: C11 - CargoShip [code=S732, name=SoPingas, cargo=20.2]
+Ref: P06 - PassengerShip [code=S078, name=Costeiro, passengers=25]
+Ref: P35 - PassengerShip [code=S185, name=PDS All aboard, passengers=80]
+Ref: P54 - PassengerShip [code=S199, name=Bananeiros, passengers=120]
+Ref: X01 - CargoShip [code=S45, name=Beirão, cargo=81.0]
+
+Alínea c) ----------------------------------
+
+Adicionar navios:
+add X01 (CargoShip, carga 8): true
+add X02 (CargoShip, carga 15): false
+add P01 (PassengerShip, 7 passageiros): true
+add P02 (PassengerShip, 20 passageiros): false
+exists X01: true
+exists X02: false
+remove X01: CargoShip [code=C8, name=MiniCargo, cargo=8.0]
+remove X02: null
+
+Navios no RiverPort:
+Ref: P01 - PassengerShip [code=P7, name=MiniPass, passengers=7]
+
+Logs do RiverLogger:
+add: X01 - CargoShip [code=C8, name=MiniCargo, cargo=8.0] result: true
+add rejected: X02 - CargoShip [code=C15, name=BigCargo, cargo=15.0]
+add: P01 - PassengerShip [code=P7, name=MiniPass, passengers=7] result: true
+add rejected: P02 - PassengerShip [code=P20, name=BigPass, passengers=20]
+exists: X01 result: true
+exists: X02 result: false
+remove: X01 result: CargoShip [code=C8, name=MiniCargo, cargo=8.0]
+remove: X02 result: null
+iterator called
