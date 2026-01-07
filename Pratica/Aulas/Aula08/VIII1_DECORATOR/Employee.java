@@ -1,4 +1,4 @@
-package Aula08.VIII_DECORATOR;
+package Aula08.VIII1_DECORATOR;
 
 public interface Employee {
     public void start(String Date);

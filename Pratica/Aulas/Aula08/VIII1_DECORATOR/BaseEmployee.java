@@ -1,4 +1,4 @@
-package Aula08.VIII_DECORATOR;
+package Aula08.VIII1_DECORATOR;
 
 public class BaseEmployee implements Employee{
     private String name;
