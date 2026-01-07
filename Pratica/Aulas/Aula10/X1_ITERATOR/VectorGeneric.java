@@ -1,4 +1,4 @@
-package Aula10.X1;
+package Aula10.X1_ITERATOR;
 
 import java.util.Iterator;
 import java.util.ListIterator;
