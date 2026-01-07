@@ -1,4 +1,4 @@
-package Aula08;
+package Aula08.VIII_DECORATOR;
 
 public class Manager extends EmployeeDecorator{
 
