@@ -7,6 +7,6 @@ public class GradingSystem {
     }
 
     public double evaluate(InnerGroup exam) {
-        return strat.exec();
+        return strat.exec(exam);
     }  
 }
