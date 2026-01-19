@@ -1,0 +1,276 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class ValorantPDS2 {
+    public static void main(String[] args) {
+        ChatMediator valorantChat = new ValorantChat();
+
+        System.out.println("--- FASE DE CRIAÇÃO (FACTORY) ---");
+        Jogador p1 = AgenteFactory.criarAgente(Role.DUELIST, "Phoenix", 1, valorantChat);
+        Jogador p2 = AgenteFactory.criarAgente(Role.CONTROLLER, "Sage", 2, valorantChat);
+        Jogador p3 = AgenteFactory.criarAgente(Role.SENTINEL, "Jett", 3, valorantChat);
+
+        valorantChat.addJogador(p3);
+        valorantChat.addJogador(p2);
+        valorantChat.addJogador(p1);
+
+        System.out.println("\n--- FASE DE ARMAS (STRATEGY) ---");
+        p1.setArma(new Rifle());
+        p3.setArma(new Sniper());
+        p1.atacar();
+        p3.atacar();
+
+        System.out.println("\n--- FASE DE COMUNICAÇÃO (MEDIATOR) ---");
+        p1.enviarRadio("Inimigos no B!"); //// Só P2 (Equipa A) deve receber 
+
+        System.out.println("\n--- FASE DE UPGRADES (DECORATOR) ---");
+        // Phoenix ganha escudo e dano de fogo (empilhados)
+        p1 = new EscudoDecorator(p1);
+        p1 = new DanoFogoDecorator(p1);
+
+        p1.usarHabilidade(); // Habilidade base + bónus do decorator
+        p1.atacar();         // Ataque da arma + bónus do decorator
+        tryToUseAbility(p2);
+    }
+    public static void tryToUseAbility(Jogador j) {
+        j.usarHabilidade();
+    }
+}
+
+
+abstract class SkillDecorator extends Jogador {
+
+    protected Jogador skillDecorator;
+
+    public SkillDecorator(Jogador p1) {
+
+        super(p1.agent, p1.ID, p1.chat);
+        this.skillDecorator = p1;
+        this.weapon = p1.weapon;
+    }
+
+    @Override
+    public void usarHabilidade() {
+
+        skillDecorator.usarHabilidade();
+    }
+
+    @Override
+    public void receberMensagem(String msg) { 
+        skillDecorator.receberMensagem(msg); 
+    }
+
+    @Override
+    public void atacar() { 
+        skillDecorator.atacar(); 
+    }
+
+
+}
+
+class EscudoDecorator extends SkillDecorator {
+
+    public EscudoDecorator(Jogador p1) {
+        super(p1);
+    }
+
+    @Override
+    public void usarHabilidade() {
+        super.usarHabilidade();
+        System.out.println("Escudo");
+
+    }
+
+    public void atacar() {
+        skillDecorator.atacar();
+    }
+
+
+}
+
+class DanoFogoDecorator extends SkillDecorator {
+
+    public DanoFogoDecorator(Jogador p1) {
+        super(p1);
+    }
+
+    @Override
+    public void atacar() {
+        super.skillDecorator.atacar(); 
+        System.out.println("Dano de Fogo");
+    }
+
+
+}
+
+
+interface ChatMediator {
+
+    void addJogador(Jogador j);
+    void sendMessage(String msg, Jogador remetente);
+}
+
+class ValorantChat implements ChatMediator {
+
+    private final List<Jogador> jogadores;
+
+    public ValorantChat() {
+        this.jogadores = new ArrayList<>();
+    }
+
+    @Override
+    public void addJogador(Jogador j) {
+       this.jogadores.add(j);
+    }
+
+    @Override
+    public void sendMessage(String msg, Jogador remetente) {
+        
+        for(Jogador j : jogadores) {
+
+            if(j!= remetente && j.getID() % 2 == remetente.getID() % 2) {
+                j.receberMensagem(msg);
+            }
+        }
+    }
+}
+
+abstract class Jogador {
+
+    protected String agent;
+    protected  int ID;
+    protected  ChatMediator chat;
+    protected  Weapon weapon;
+
+    protected SkillDecorator decorator;
+   
+
+
+    public Jogador(String agent, int iD, ChatMediator chat) {
+        this.agent = agent;
+        ID = iD;
+        this.chat = chat;
+    }
+
+    public void setArma(Weapon weapon) {
+
+        this.weapon = weapon;
+    }
+
+    public void enviarRadio(String msg) {
+
+        chat.sendMessage(msg, this);
+    }
+
+    public void receberMensagem(String msg) {
+
+        System.out.println("msg recebida " + msg);
+    }
+
+    public void atacar() {
+
+        if(weapon != null) {
+            System.out.print(agent + " a atacar com ");
+            weapon.disparar();
+        } else {
+            System.out.println("Jogador sem arma");
+        }
+    }
+
+    public void usarHabilidade(){
+
+        System.out.println("A usar habilidade");
+    }
+
+    public String getAgent() {
+        return agent;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public ChatMediator getChat() {
+        return chat;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+}
+
+enum Role {
+        DUELIST,
+        CONTROLLER,
+        SENTINEL    
+};
+
+class AgenteFactory {
+
+    public static Jogador criarAgente(Role role, String agent, int ID, ChatMediator chat ) {
+
+        switch (role) {
+            case DUELIST:
+                return new Duelist(agent, ID, chat);
+            case CONTROLLER:
+                return new Controller(agent, ID, chat);
+            case  SENTINEL:
+                return  new Sentinel(agent, ID, chat);
+
+            default:
+                return null;
+        }
+
+    }
+}
+
+class Duelist extends Jogador {
+
+    public Duelist(String agent, int iD, ChatMediator chat) {
+        super(agent, iD, chat);
+    }
+
+}
+
+class Controller extends Jogador {
+
+    public Controller(String agent, int iD, ChatMediator chat) {
+        super(agent, iD, chat);
+    }
+
+}
+
+class Sentinel extends Jogador {
+
+    public Sentinel(String agent, int iD, ChatMediator chat) {
+        super(agent, iD, chat);
+    }
+
+}
+
+interface Weapon {
+
+    void disparar();
+
+}
+
+class Rifle implements Weapon {
+
+    @Override
+    public void disparar() {
+       System.out.println("Rifle");
+    }
+
+
+}
+
+class Sniper implements Weapon{
+
+    @Override
+    public void disparar() {
+        System.out.println("Sniper");
+    }
+
+
+}
