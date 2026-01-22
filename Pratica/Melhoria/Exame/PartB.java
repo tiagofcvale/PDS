@@ -47,5 +47,57 @@ public class PartB {
             }
         }
     }
+}
+
+class MatchFeed {
+    private List<GroupChannel> observers = new ArrayList<>();
+
+    public void addObserver(GroupChannel gChannel) {
+        observers.add(gChannel);
+    }
+}
+
+interface GroupChannel {
+
+    void addListener(MatchFeed matchFeed);
+
+    void register(PlayerUnit a1);
 
 }
+
+class Squad implements GroupChannel {
+    private String name;
+    private List<PlayerUnit> players = new ArrayList<>();
+
+    public Squad(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void addListener(MatchFeed matchFeed) {
+        matchFeed.addObserver(this);
+    }
+
+    @Override
+    public void register(PlayerUnit pUnit) {
+        players.add(pUnit);
+    }
+}
+
+class AgentRegistry {
+    public static PlayerUnit create(Role role, int id, String name, Weapon weapon, GroupChannel channel) {
+        switch (role) {
+            case DUELIST:
+                return new Duelist(id,name,weapon, channel);
+            case SENTINEL:
+                return new Sentinel(id,name,weapon, channel);
+            case INITIATOR:
+                return new Initiator(id,name,weapon, channel);
+            case CONTROLLER:
+                return new Controller(id,name,weapon, channel);
+            default:
+                return null;
+        }
+    }
+}
+
