@@ -1,0 +1,26 @@
+OUTPUT PartA
+Creating unit: Jett role=DUELIST weapon=Rifle
+Creating unit: Omen role=CONTROLLER weapon=Sidearm
+Creating unit: Sage role=SENTINEL weapon=Sniper
+Creating unit: Sova role=INITIATOR weapon=Shotgun
+Jett has now the dash ability!
+Omen has now the smoke ability!
+Sage has now the heal ability!
+
+Simple random simulation
+Agent Sage CROUCH
+Agent Sage SHOOT with Sniper
+Weapon[Sniper] shoots!
+Agent Omen SHOOT with Sidearm
+Weapon[Sidearm] shoots!
+Sova does not have abilities
+Agent Sage RUN to (0.0,2.0)
+Agent Jett WALK to (5.0,2.0)
+Agent Jett RUN to (7.0,9.0)
+Agent Sage CROUCH
+Agent Sova WALK to (8.0,4.0)
+Agent Omen SHOOT with Sidearm
+Weapon[Sidearm] shoots!
+Agent Omen used SMOKE
+Agent Omen POINT at (9.0,1.0,0.0) with Sidearm
+Weapon[Sidearm] points at (9.0,1.0,0.0)
