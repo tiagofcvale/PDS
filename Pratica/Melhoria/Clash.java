@@ -2,12 +2,15 @@ public class Clash {
     public static void main(String[] args) {
         // 1. SINGLETON / MEDIATOR (O Campo de Batalha)
         Arena arena = Arena.getInstance();
+        System.out.println(arena.getName());
 
         System.out.println("--- FASE DE DECK (FACTORY) ---");
         // Criando unidades através da Factory
         Carta c1 = CartaFactory.criarCarta(Role.TROPA, "Gigante", 5);
         Carta c2 = CartaFactory.criarCarta(Role.TROPA, "Arqueiras", 3);
         Carta c3 = CartaFactory.criarCarta(Role.FEITICO, "Bola de Fogo", 4);
+
+        c3.getName();
 
         System.out.println("\n--- FASE DE COMBATE (STRATEGY) ---");
         // Definindo comportamentos de ataque diferentes para as tropas
@@ -304,7 +307,11 @@ class CartaFactory{
 
 class Arena{
     private static Arena arena;
-    private Arena() {}
+    private String name;
+
+    private Arena() {
+        this.name = "Electrovale"; 
+    }
 
     public static Arena getInstance() {
         if (arena==null) {
@@ -312,4 +319,9 @@ class Arena{
         }
         return arena;
     }
+
+    public String getName() {
+        return name;
+    }
+
 }
